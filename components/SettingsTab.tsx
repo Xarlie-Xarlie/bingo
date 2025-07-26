@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Button, Text, Switch, StyleSheet } from 'react-native';
+import { View, Button, StyleSheet } from 'react-native';
 
 type SettingsTabProps = {
   soundEnabled: boolean;
@@ -8,8 +8,6 @@ type SettingsTabProps = {
 };
 
 const SettingsTab: React.FC<SettingsTabProps> = ({
-  soundEnabled,
-  setSoundEnabled,
   resetAll,
 }) => (
   <View style={styles.container}>

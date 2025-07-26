@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import BoardNumber from './BoardNumber';
 
 type BoardProps = {
@@ -26,19 +26,32 @@ const Board: React.FC<BoardProps> = ({ id, numbers, chosenNumbers }) => {
   return (
     <View style={[styles.board, { backgroundColor: boardBg }]}>
       <Text style={styles.title}>Board #{id}</Text>
-      {grid.map((row, i) => (
-        <View key={i} style={styles.row}>
-          {row.map(num => (
-            <BoardNumber
-              key={num}
-              number={num}
-              isChosen={chosenNumbers.includes(num)}
-              showRemove={false}
-            />
-          ))}
-        </View>
-      ))}
-      <Text style={styles.remaining}>
+      <View style={styles.row}>
+        {['B', 'I', 'N', 'G', 'O'].map(letter => (
+          <TouchableOpacity
+            style={styles.bindoLetter}
+            activeOpacity={0.7}
+            disabled={true}
+          >
+            <Text style={styles.text}>{letter}</Text>
+          </TouchableOpacity>
+        ))}
+      </View>
+      {
+        grid.map((row, i) => (
+          <View key={i} style={styles.row}>
+            {row.map(num => (
+              <BoardNumber
+                key={num}
+                number={num}
+                isChosen={chosenNumbers.includes(num)}
+                showRemove={false}
+              />
+            ))}
+          </View>
+        ))
+      }
+      < Text style={styles.remaining} >
         {remaining === 0
           ? 'Bingo!'
           : `${remaining} left`}
@@ -57,6 +70,32 @@ const styles = StyleSheet.create({
   title: { fontWeight: 'bold', marginBottom: 8, fontSize: 16 },
   row: { flexDirection: 'row', justifyContent: 'center', marginBottom: 4 },
   remaining: { marginTop: 8, textAlign: 'center', fontWeight: 'bold' },
+  lettersRow: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginBottom: 8,
+  },
+  letter: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    marginHorizontal: 8,
+    letterSpacing: 4,
+  },
+  text: {
+    color: '#fff',
+    fontWeight: 'bold',
+    fontSize: 18,
+  },
+  bindoLetter: {
+    width: 36,
+    height: 36,
+    margin: 4,
+    borderRadius: 18,
+    backgroundColor: 'green',
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'relative',
+  },
 });
 
 export default Board;
