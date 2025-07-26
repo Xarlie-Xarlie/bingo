@@ -32,6 +32,7 @@ const ChosenNumbersTab: React.FC<ChosenNumbersTabProps> = ({
           value={input}
           onChangeText={setInput}
           keyboardType="numeric"
+          onSubmitEditing={handleAdd}
         />
         <Button title="Adicionar" onPress={handleAdd} />
       </View>

@@ -3,7 +3,7 @@ import { ScrollView, View, Text, StyleSheet } from 'react-native';
 import Board from './Board';
 
 type BoardTabProps = {
-  boards: { id: number; numbers: number[][] }[];
+  boards: { id: number; numbers: number[] }[];
   chosenNumbers: number[];
 };
 
