@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { SafeAreaView, Dimensions, Alert } from 'react-native';
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
-import * as Haptics from 'expo-haptics';
 import ChosenNumbersTab from '../../components/ChosenNumbersTab';
 import BoardTab from '../../components/BoardTab';
 import SettingsTab from '../../components/SettingsTab';
@@ -87,7 +86,6 @@ export default function App() {
     5, 20, 35, 50, 65, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68,
   ]);
   const [boards, setBoards] = useState(initialBoards);
-  const [soundEnabled, setSoundEnabled] = useState(true);
 
   const addNumber = (num: number) => {
     if (isNaN(num) || num < 1 || num > 75) {
@@ -100,12 +98,10 @@ export default function App() {
     }
     const updated = [...chosenNumbers, num].sort((a, b) => a - b);
     setChosenNumbers(updated);
-    if (soundEnabled) Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
   };
 
   const removeNumber = (num: number) => {
     setChosenNumbers(chosenNumbers.filter((n) => n !== num));
-    if (soundEnabled) Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
   };
 
   const resetAll = () => {
@@ -137,8 +133,8 @@ export default function App() {
     ),
     settings: () => (
       <SettingsTab
-        soundEnabled={soundEnabled}
-        setSoundEnabled={setSoundEnabled}
+        chosenNumbers={chosenNumbers}
+        setChosenNumbers={setChosenNumbers}
         resetAll={resetAll}
       />
     ),

@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, TextInput, Button, Text, StyleSheet, ScrollView } from 'react-native';
 import BoardNumber from './BoardNumber';
+import storage from '../assets/storage';
 
 type ChosenNumbersTabProps = {
   chosenNumbers: number[];
@@ -14,6 +15,10 @@ const ChosenNumbersTab: React.FC<ChosenNumbersTabProps> = ({
   removeNumber,
 }) => {
   const [input, setInput] = useState('');
+
+  useEffect(() => {
+    storage.setChosenNumbers(chosenNumbers);
+  }, [chosenNumbers]);
 
   const handleAdd = () => {
     const num = parseInt(input, 10);
