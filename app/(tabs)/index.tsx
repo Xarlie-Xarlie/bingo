@@ -82,9 +82,8 @@ export default function App() {
     { key: 'settings', title: 'Resetar' },
   ]);
   const [chosenNumbers, setChosenNumbers] = useState<number[]>([
-    1, 2, 31, 46, 61, 16, 17, 32, 47, 62, 3, 18, 33, 48, 63, 4, 19, 34, 49, 64,
-    5, 20, 35, 50, 65, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68,
-  ]);
+    1, 2, 3, 4, 5, 16, 17, 18, 19, 20, 31, 32, 33, 34, 35, 46, 47, 48, 49, 50, 51, 52, 53,
+    54, 55, 56, 57, 58, 59, 60, 61, 61, 62, 62, 63, 63, 64, 64, 65, 65, 66, 67, 68]);
   const [boards, setBoards] = useState(initialBoards);
 
   const addNumber = (num: number) => {
@@ -96,7 +95,17 @@ export default function App() {
       Alert.alert('Duplicado', 'Número já saiu.');
       return;
     }
-    const updated = [...chosenNumbers, num].sort((a, b) => a - b);
+    let left = 0, right = chosenNumbers.length;
+    while (left < right) {
+      const mid = (left + right) >> 1;
+      if (chosenNumbers[mid] < num) left = mid + 1;
+      else right = mid;
+    }
+    const updated = [
+      ...chosenNumbers.slice(0, left),
+      num,
+      ...chosenNumbers.slice(left),
+    ];
     setChosenNumbers(updated);
   };
 
