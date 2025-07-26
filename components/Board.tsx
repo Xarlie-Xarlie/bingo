@@ -27,13 +27,14 @@ const Board: React.FC<BoardProps> = ({ id, numbers, chosenNumbers }) => {
     <View style={[styles.board, { backgroundColor: boardBg }]}>
       <Text style={styles.title}>Board #{id}</Text>
       <View style={styles.row}>
-        {['B', 'I', 'N', 'G', 'O'].map(letter => (
+        {['B', 'I', 'N', 'G', 'O'].map((letter, i) => (
           <TouchableOpacity
+            key={i}
             style={styles.bindoLetter}
             activeOpacity={0.7}
             disabled={true}
           >
-            <Text style={styles.text}>{letter}</Text>
+            <Text style={styles.text} >{letter}</Text>
           </TouchableOpacity>
         ))}
       </View>

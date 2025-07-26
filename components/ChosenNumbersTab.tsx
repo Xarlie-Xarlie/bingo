@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, TextInput, Button, Text, StyleSheet } from 'react-native';
+import { View, TextInput, Button, Text, StyleSheet, ScrollView } from 'react-native';
 import BoardNumber from './BoardNumber';
 
 type ChosenNumbersTabProps = {
@@ -36,25 +36,50 @@ const ChosenNumbersTab: React.FC<ChosenNumbersTabProps> = ({
         />
         <Button title="Adicionar" onPress={handleAdd} />
       </View>
-      <View style={styles.numbersGrid}>
-        {chosenNumbers
-          .sort((a, b) => a - b)
-          .map((num) => (
-            <BoardNumber
-              key={num}
-              number={num}
-              isChosen={true}
-              onRemove={removeNumber}
-              showRemove={true}
-            />
-          ))}
+      {/* BINGO header row */}
+      <View style={styles.row}>
+        {['B', 'I', 'N', 'G', 'O'].map(letter => (
+          <View key={letter} style={styles.cell}>
+            <Text style={styles.letter}>{letter}</Text>
+          </View>
+        ))}
       </View>
+      {/* Numbers grid */}
+      <ScrollView contentContainerStyle={styles.grid}>
+        {(() => {
+          // Group chosen numbers into columns
+          const columns: number[][] = Array.from({ length: 5 }, (_, col) =>
+            chosenNumbers
+              .filter(n => n >= col * 15 + 1 && n <= (col + 1) * 15)
+              .sort((a, b) => a - b)
+          );
+          // Find the max column length
+          const maxRows = Math.max(...columns.map(col => col.length), 1);
+          // Build grid rows
+          return Array.from({ length: maxRows }, (_, rowIdx) => (
+            <View key={rowIdx} style={styles.row}>
+              {columns.map((col, colIdx) => (
+                <View key={colIdx} style={styles.cell}>
+                  {col[rowIdx] !== undefined && (
+                    <BoardNumber
+                      number={col[rowIdx]}
+                      isChosen={true}
+                      onRemove={removeNumber}
+                      showRemove={true}
+                    />
+                  )}
+                </View>
+              ))}
+            </View>
+          ));
+        })()}
+      </ScrollView>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: { padding: 16 },
+  container: { padding: 16, flex: 1 },
   label: { fontSize: 16, marginBottom: 8 },
   inputRow: { flexDirection: 'row', alignItems: 'center', marginBottom: 16 },
   input: {
@@ -70,6 +95,27 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     marginTop: 8,
+  },
+  row: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 8
+  },
+  grid: {
+    marginTop: 4,
+    paddingBottom: 32,
+  },
+  cell: {
+    width: 40,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginHorizontal: 14,
+  },
+  letter: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    letterSpacing: 2,
+    marginBottom: 2,
   },
 });
 

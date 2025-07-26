@@ -39,7 +39,7 @@ export default function App() {
   ]);
   const [chosenNumbers, setChosenNumbers] = useState<number[]>([
     1, 2, 31, 46, 61, 16, 17, 32, 47, 62, 3, 18, 33, 48, 63, 4, 19, 34, 49, 64,
-    5, 20, 35, 50, 65,
+    5, 20, 35, 50, 65, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68,
   ]);
   const [boards, setBoards] = useState(initialBoards);
   const [soundEnabled, setSoundEnabled] = useState(true);
