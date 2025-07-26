@@ -13,11 +13,7 @@ const SettingsTab: React.FC<SettingsTabProps> = ({
   resetAll,
 }) => (
   <View style={styles.container}>
-    <View style={styles.row}>
-      <Text style={styles.label}>Sound</Text>
-      <Switch value={soundEnabled} onValueChange={setSoundEnabled} />
-    </View>
-    <Button title="Reset All" color="#f44336" onPress={resetAll} />
+    <Button title="Resetar Tudo" color="#f44336" onPress={resetAll} />
   </View>
 );
 

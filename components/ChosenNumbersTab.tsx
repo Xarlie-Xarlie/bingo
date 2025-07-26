@@ -25,27 +25,28 @@ const ChosenNumbersTab: React.FC<ChosenNumbersTabProps> = ({
 
   return (
     <View style={styles.container}>
-      <Text style={styles.label}>Enter a number (1-75):</Text>
+      <Text style={styles.label}>Insira um número (1-75):</Text>
       <View style={styles.inputRow}>
         <TextInput
           style={styles.input}
           value={input}
           onChangeText={setInput}
           keyboardType="numeric"
-          maxLength={2}
         />
-        <Button title="Add" onPress={handleAdd} />
+        <Button title="Adicionar" onPress={handleAdd} />
       </View>
       <View style={styles.numbersGrid}>
-        {chosenNumbers.map(num => (
-          <BoardNumber
-            key={num}
-            number={num}
-            isChosen={true}
-            onRemove={removeNumber}
-            showRemove={true}
-          />
-        ))}
+        {chosenNumbers
+          .sort((a, b) => a - b)
+          .map((num) => (
+            <BoardNumber
+              key={num}
+              number={num}
+              isChosen={true}
+              onRemove={removeNumber}
+              showRemove={true}
+            />
+          ))}
       </View>
     </View>
   );
@@ -56,11 +57,11 @@ const styles = StyleSheet.create({
   label: { fontSize: 16, marginBottom: 8 },
   inputRow: { flexDirection: 'row', alignItems: 'center', marginBottom: 16 },
   input: {
+    flexGrow: 1,
     borderWidth: 1,
     borderColor: '#ccc',
     borderRadius: 6,
     padding: 8,
-    width: 60,
     marginRight: 8,
     fontSize: 16,
   },

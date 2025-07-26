@@ -4,13 +4,20 @@ import BoardNumber from './BoardNumber';
 
 type BoardProps = {
   id: number;
-  numbers: number[][];
+  numbers: number[];
   chosenNumbers: number[];
 };
 
 const Board: React.FC<BoardProps> = ({ id, numbers, chosenNumbers }) => {
-  const flatNumbers = numbers.flat();
-  const remaining = flatNumbers.filter(n => !chosenNumbers.includes(n)).length;
+  // Build 5x5 grid column-wise
+  numbers.sort((a, b) => a - b); // Ensure numbers are sorted
+  const columns: number[][] = Array.from({ length: 5 }, (_, col) =>
+    numbers.filter(n => n >= col * 15 + 1 && n <= (col + 1) * 15)
+  );
+  const grid: number[][] = Array.from({ length: 5 }, (_, row) =>
+    Array.from({ length: 5 }, (_, col) => columns[col][row])
+  );
+  const remaining = numbers.filter(n => !chosenNumbers.includes(n)).length;
 
   let boardBg = '#fff';
   if (remaining === 0) boardBg = '#a5d6a7'; // green
@@ -19,7 +26,7 @@ const Board: React.FC<BoardProps> = ({ id, numbers, chosenNumbers }) => {
   return (
     <View style={[styles.board, { backgroundColor: boardBg }]}>
       <Text style={styles.title}>Board #{id}</Text>
-      {numbers.map((row, i) => (
+      {grid.map((row, i) => (
         <View key={i} style={styles.row}>
           {row.map(num => (
             <BoardNumber
