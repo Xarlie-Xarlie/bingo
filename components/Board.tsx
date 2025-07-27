@@ -3,21 +3,22 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import BoardNumber from './BoardNumber';
 
 type BoardProps = {
-  id: number;
+  id: string;
   numbers: number[];
-  chosenNumbers: number[];
+  chosenNumbers: Set<number>;
+  marked?: Set<number>;
 };
 
 const Board: React.FC<BoardProps> = ({ id, numbers, chosenNumbers }) => {
   // Build 5x5 grid column-wise
-  numbers.sort((a, b) => a - b); // Ensure numbers are sorted
+  const sortedNumbers = [...numbers].sort((a, b) => a - b); // Ensure numbers are sorted
   const columns: number[][] = Array.from({ length: 5 }, (_, col) =>
-    numbers.filter(n => n >= col * 15 + 1 && n <= (col + 1) * 15)
+    sortedNumbers.filter(n => n >= col * 15 + 1 && n <= (col + 1) * 15)
   );
   const grid: number[][] = Array.from({ length: 5 }, (_, row) =>
     Array.from({ length: 5 }, (_, col) => columns[col][row])
   );
-  const remaining = numbers.filter(n => !chosenNumbers.includes(n)).length;
+  const remaining = numbers.filter(n => !chosenNumbers.has(n)).length;
 
   let boardBg = '#fff';
   if (remaining === 0) boardBg = '#a5d6a7'; // green
@@ -45,7 +46,7 @@ const Board: React.FC<BoardProps> = ({ id, numbers, chosenNumbers }) => {
               <BoardNumber
                 key={num}
                 number={num}
-                isChosen={chosenNumbers.includes(num)}
+                isChosen={chosenNumbers.has(num)}
                 showRemove={false}
               />
             ))}

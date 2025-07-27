@@ -4,7 +4,7 @@ import BoardNumber from './BoardNumber';
 import storage from '../assets/storage';
 
 type ChosenNumbersTabProps = {
-  chosenNumbers: number[];
+  chosenNumbers: Set<number>;
   addNumber: (num: number) => void;
   removeNumber: (num: number) => void;
 };
@@ -17,7 +17,7 @@ const ChosenNumbersTab: React.FC<ChosenNumbersTabProps> = ({
   const [input, setInput] = useState('');
 
   useEffect(() => {
-    storage.setChosenNumbers(chosenNumbers);
+    storage.setChosenNumbers(Array.from(chosenNumbers));
   }, [chosenNumbers]);
 
   const handleAdd = () => {
@@ -54,7 +54,7 @@ const ChosenNumbersTab: React.FC<ChosenNumbersTabProps> = ({
         {(() => {
           // Group chosen numbers into columns
           const columns: number[][] = Array.from({ length: 5 }, (_, col) =>
-            chosenNumbers
+            Array.from(chosenNumbers)
               .filter(n => n >= col * 15 + 1 && n <= (col + 1) * 15)
               .sort((a, b) => a - b)
           );

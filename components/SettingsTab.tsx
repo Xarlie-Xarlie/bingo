@@ -3,8 +3,8 @@ import { View, Button, StyleSheet, Alert } from 'react-native';
 import storage from '../assets/storage';
 
 type SettingsTabProps = {
-  chosenNumbers: number[],
-  setChosenNumbers: (restored: number[]) => void,
+  chosenNumbers: Set<number>,
+  setChosenNumbers: (restored: Set<number>) => void,
   resetAll: () => void;
 };
 
@@ -18,7 +18,7 @@ const SettingsTab: React.FC<SettingsTabProps> = ({
     <Button
       title="Salvar Estado Atual"
       onPress={async () => {
-        await storage.saveState(chosenNumbers);
+        await storage.saveState(Array.from(chosenNumbers));
         Alert.alert('Estado salvo!');
       }}
     />
@@ -27,7 +27,7 @@ const SettingsTab: React.FC<SettingsTabProps> = ({
       onPress={async () => {
         const restored = await storage.restoreState();
         if (restored) {
-          setChosenNumbers(restored);
+          setChosenNumbers(new Set(restored));
           Alert.alert('Estado restaurado!');
         } else {
           Alert.alert('Nenhum estado salvo encontrado.');

@@ -3,8 +3,8 @@ import { ScrollView, Text, StyleSheet } from 'react-native';
 import Board from './Board';
 
 type BoardTabProps = {
-  boards: { id: string; numbers: number[] }[];
-  chosenNumbers: number[];
+  boards: { id: string; numbers: number[]; marked?: Set<number> }[];
+  chosenNumbers: Set<number>;
 };
 
 const BoardTab: React.FC<BoardTabProps> = ({ boards, chosenNumbers }) => {
@@ -13,7 +13,7 @@ const BoardTab: React.FC<BoardTabProps> = ({ boards, chosenNumbers }) => {
       {boards.map(board => (
         <Board
           key={board.id}
-          id={parseInt(board.id)}
+          id={board.id}
           numbers={board.numbers}
           chosenNumbers={chosenNumbers}
         />
