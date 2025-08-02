@@ -1,50 +1,64 @@
-# Welcome to your Expo app 👋
+# Bingo Board Manager
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+A React Native app built with Expo for managing bingo boards and chosen numbers. The app features three main tabs for easy navigation and control over your bingo game.
 
-## Get started
+## Features
 
-1. Install dependencies
+### 1. Números Tab
+- **Insert Chosen Numbers:**
+  Enter a number (1-75) in the input field and add it to your chosen numbers list.
+  - Numbers are grouped under the BINGO columns (B, I, N, G, O) according to their range.
+  - Each chosen number appears in the grid and can be removed by tapping the remove button.
+  - The state of chosen numbers is automatically saved locally.
 
-   ```bash
+### 2. Boards Tab
+- **View Boards and Numbers:**
+  Displays all bingo boards and highlights the numbers that have been chosen.
+  - Each board shows the numbers you have selected.
+  - Helps track progress and visualize which numbers have been picked.
+
+### 3. Settings Tab
+- **Save/Restore State:**
+  - Save the current state of chosen numbers to local storage.
+  - Restore previously saved state at any time.
+- **Reset All:**
+  - Clears all chosen numbers and resets the boards.
+- **Clear Storage:**
+  - Completely wipes all saved data from local storage.
+
+## How to Run
+
+1. **Install Expo CLI (if not already installed):**
+   ```sh
+   npm install -g expo-cli
+   ```
+
+2. **Install dependencies:**
+   ```sh
    npm install
    ```
 
-2. Start the app
-
-   ```bash
-   npx expo start
+3. **Start the app:**
+   ```sh
+   expo start
    ```
 
-In the output, you'll find options to open the app in a
+4. **Run on your device:**
+   - Use the Expo Go app on your phone to scan the QR code.
+   - Or run on an emulator using the options in the Expo CLI.
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+## Project Structure
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+- `components/ChosenNumbersTab.tsx` — Handles number input and chosen numbers grid.
+- `components/BoardsTab.tsx` — Displays bingo boards and highlights chosen numbers.
+- `components/SettingsTab.tsx` — Provides state management actions (save, restore, reset, clear).
 
-## Get a fresh project
+## Requirements
 
-When you're ready, run:
+- Node.js
+- Expo CLI
+- React Native
 
-```bash
-npm run reset-project
-```
+## License
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+MIT
