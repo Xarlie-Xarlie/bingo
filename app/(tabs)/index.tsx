@@ -8,93 +8,93 @@ import SettingsTab from '../../components/SettingsTab';
 const initialBoards = [
   {
     id: '006794',
-    numbers: [
+    numbers: new Set([
       10, 11, 12, 13, 14, 19, 22, 25, 27, 28, 35, 37, 42, 43, 45, 49, 54, 55, 59, 60, 66, 70, 71, 72, 75
-    ],
+    ]),
     marked: 0,
   },
   {
     id: '023399',
-    numbers: [
+    numbers: new Set([
       2, 3, 6, 8, 12, 16, 18, 27, 28, 29, 34, 36, 38, 40, 41, 46, 54, 55, 56, 58, 67, 68, 70, 71, 74
-    ],
+    ]),
     marked: 0,
   },
   {
     id: '019487',
-    numbers: [
+    numbers: new Set([
       1, 2, 8, 14, 15, 17, 22, 27, 28, 29, 32, 35, 41, 42, 45, 50, 55, 57, 59, 60, 62, 63, 64, 69, 73
-    ],
+    ]),
     marked: 0,
   },
   {
     id: '004939',
-    numbers: [
+    numbers: new Set([
       4, 6, 9, 11, 13, 17, 18, 22, 25, 30, 32, 35, 40, 42, 45, 48, 49, 53, 56, 57, 62, 65, 66, 71, 75
-    ],
+    ]),
     marked: 0,
   },
   {
     id: '013048',
-    numbers: [
+    numbers: new Set([
       1, 6, 10, 12, 13, 19, 25, 26, 27, 28, 32, 35, 37, 42, 45, 48, 51, 56, 59, 60, 63, 64, 67, 70, 71
-    ],
+    ]),
     marked: 0,
   },
   {
     id: '009640',
-    numbers: [
+    numbers: new Set([
       2, 6, 8, 11, 14, 16, 17, 25, 26, 28, 31, 36, 37, 42, 45, 50, 51, 53, 55, 57, 61, 65, 66, 71, 74
-    ],
+    ]),
     marked: 0,
   },
   {
     id: '001391',
-    numbers: [
+    numbers: new Set([
       3, 5, 6, 7, 8, 22, 26, 27, 28, 29, 38, 41, 43, 44, 45, 53, 56, 57, 58, 60, 63, 69, 71, 72, 73,
-    ],
+    ]),
     marked: 0,
   },
   {
     id: '003893',
-    numbers: [
+    numbers: new Set([
       4, 7, 12, 13, 15, 18, 22, 24, 27, 29, 34, 36, 37, 42, 44, 46, 52, 55, 56, 57, 62, 66, 67, 72, 73,
-    ],
+    ]),
     marked: 0,
   },
   {
     id: '023308',
-    numbers: [
+    numbers: new Set([
       1, 4, 11, 12, 13, 19, 20, 22, 23, 26, 33, 34, 35, 39, 45, 50, 51, 56, 57, 58, 63, 66, 67, 71, 73,
-    ],
+    ]),
     marked: 0,
   },
   {
     id: '020260',
-    numbers: [
+    numbers: new Set([
       2, 4, 5, 10, 14, 20, 26, 27, 28, 30, 37, 38, 39, 43, 44, 46, 50, 54, 57, 59, 61, 66, 67, 72, 74,
-    ],
+    ]),
     marked: 0,
   },
   {
     id: '021720',
-    numbers: [
+    numbers: new Set([
       1, 2, 5, 10, 11, 21, 22, 23, 26, 28, 31, 33, 35, 36, 41, 46, 52, 55, 59, 60, 63, 64, 67, 68, 71,
-    ],
+    ]),
     marked: 0,
   },
   {
     id: '026702',
-    numbers: [
+    numbers: new Set([
       1, 5, 11, 12, 13, 21, 22, 25, 27, 28, 31, 39, 42, 43, 45, 46, 52, 53, 58, 59, 66, 67, 70, 71, 75
-    ],
+    ]),
     marked: 0,
   },
   {
     id: '026764',
-    numbers: [
+    numbers: new Set([
       1, 6, 8, 11, 13, 19, 25, 26, 27, 29, 31, 39, 40, 43, 44, 46, 49, 50, 54, 60, 63, 64, 68, 72, 74
-    ],
+    ]),
     marked: 0,
   },
 ];
@@ -127,7 +127,7 @@ export default function App() {
     // Update marked set for each board
     setBoards(prevBoards =>
       prevBoards.map(board => {
-        if (board.numbers.includes(num)) {
+        if (board.numbers.has(num)) {
           const newMarked = new Set(board.marked);
           newMarked.add(num);
           return { ...board, marked: newMarked };
@@ -197,7 +197,7 @@ export default function App() {
             inactiveColor="#888"
           />
         )}
-        swipeEnabled={false}
+        swipeEnabled={true}
       />
     </SafeAreaView>
   );

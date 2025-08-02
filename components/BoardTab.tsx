@@ -1,27 +1,31 @@
 import React from 'react';
-import { ScrollView, Text, StyleSheet } from 'react-native';
+import { FlatList, Text, StyleSheet } from 'react-native';
 import Board from './Board';
 
 type BoardTabProps = {
-  boards: { id: string; numbers: number[]; marked?: Set<number> }[];
+  boards: { id: string; numbers: Set<number>; marked?: Set<number> }[];
   chosenNumbers: Set<number>;
 };
 
 const BoardTab: React.FC<BoardTabProps> = ({ boards, chosenNumbers }) => {
+
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      {boards.map(board => (
+    <FlatList
+      data={boards}
+      removeClippedSubviews={true}
+      keyExtractor={board => board.id}
+      renderItem={({ item: board }) => (
         <Board
-          key={board.id}
           id={board.id}
           numbers={board.numbers}
           chosenNumbers={chosenNumbers}
         />
-      ))}
-      {boards.length === 0 && (
-        <Text style={styles.empty}>No boards available.</Text>
       )}
-    </ScrollView>
+      contentContainerStyle={styles.container}
+      ListEmptyComponent={
+        <Text style={styles.empty}>No boards available.</Text>
+      }
+    />
   );
 };
 

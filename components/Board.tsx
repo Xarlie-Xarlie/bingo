@@ -1,24 +1,36 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
 import BoardNumber from './BoardNumber';
 
 type BoardProps = {
   id: string;
-  numbers: number[];
+  numbers: Set<number>;
   chosenNumbers: Set<number>;
   marked?: Set<number>;
 };
 
 const Board: React.FC<BoardProps> = ({ id, numbers, chosenNumbers }) => {
-  // Build 5x5 grid column-wise
-  const sortedNumbers = [...numbers].sort((a, b) => a - b); // Ensure numbers are sorted
-  const columns: number[][] = Array.from({ length: 5 }, (_, col) =>
-    sortedNumbers.filter(n => n >= col * 15 + 1 && n <= (col + 1) * 15)
+  const gridSize = 5;
+
+  const sortedNumbers = React.useMemo(
+    () => Array.from(numbers).sort((a, b) => a - b),
+    [numbers]
   );
-  const grid: number[][] = Array.from({ length: 5 }, (_, row) =>
-    Array.from({ length: 5 }, (_, col) => columns[col][row])
+
+  const columnMajor = React.useMemo(
+    () =>
+      Array.from({ length: gridSize * gridSize }, (_, idx) => {
+        const col = idx % gridSize;
+        const row = Math.floor(idx / gridSize);
+        return sortedNumbers[row * gridSize + col];
+      }),
+    [sortedNumbers]
   );
-  const remaining = numbers.filter(n => !chosenNumbers.has(n)).length;
+
+  const remaining = React.useMemo(
+    () => Array.from(numbers).filter(n => !chosenNumbers.has(n)).length,
+    [numbers, chosenNumbers]
+  );
 
   let boardBg = '#fff';
   if (remaining === 0) boardBg = '#a5d6a7'; // green
@@ -35,28 +47,33 @@ const Board: React.FC<BoardProps> = ({ id, numbers, chosenNumbers }) => {
             activeOpacity={0.7}
             disabled={true}
           >
-            <Text style={styles.text} >{letter}</Text>
+            <Text style={styles.text}>{letter}</Text>
           </TouchableOpacity>
         ))}
       </View>
-      {
-        grid.map((row, i) => (
-          <View key={i} style={styles.row}>
-            {row.map(num => (
-              <BoardNumber
-                key={num}
-                number={num}
-                isChosen={chosenNumbers.has(num)}
-                showRemove={false}
-              />
-            ))}
-          </View>
-        ))
-      }
-      < Text style={styles.remaining} >
-        {remaining === 0
-          ? 'Bingo!'
-          : `${remaining} left`}
+      <View style={{ alignItems: 'center' }}>
+        <FlatList
+          data={columnMajor}
+          numColumns={5}
+          removeClippedSubviews={true}
+          renderItem={({ item }) => (
+            <BoardNumber
+              number={item}
+              isChosen={chosenNumbers.has(item)}
+              showRemove={false}
+            />
+          )}
+          keyExtractor={item => item.toString()}
+          contentContainerStyle={{
+            justifyContent: 'center',
+            alignContent: 'center',
+            alignItems: 'center',
+            marginLeft: 16,
+          }}
+        />
+      </View>
+      <Text style={styles.remaining}>
+        {remaining === 0 ? 'Bingo!' : `${remaining} left`}
       </Text>
     </View>
   );
